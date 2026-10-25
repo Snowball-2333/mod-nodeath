@@ -18,12 +18,15 @@ namespace HPThresholdMod
     public static class Patch_HPChange
     {
         [HarmonyPostfix]
-        public static void Postfix(PlayerControl __instance)
-        {
-            if (__instance.currentHP <= 0f)
-            {
-                __instance.currentHP = -1f; 
-            }
-        }
+public static void Postfix(PlayerControl __instance)
+{
+    // 加一句日志，如果游戏扣血，日志里就会疯狂刷这句话
+    BepInEx.Logging.Logger.CreateLogSource("HPMod").LogInfo("触发扣血方法！当前HP: " + __instance.currentHP);
+
+    if (__instance.currentHP <= 0f)
+    {
+        __instance.currentHP = -1f; 
+    }
+}
     }
 }
