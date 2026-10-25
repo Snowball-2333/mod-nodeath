@@ -10,23 +10,26 @@ namespace HPThresholdMod
         public override void Load()
         {
             Harmony.CreateAndPatchAll(typeof(Patch_HPChange));
-            Log.LogInfo("HPThresholdMod 已加载");
+            Log.LogInfo("God Mode Mod Loaded!"); // 纯英文日志
         }
     }
 
+    // 注意：这里我们加了参数 float __0 或 float amount，来精确拦截带参数的版本
     [HarmonyPatch(typeof(PlayerControl), "HPChange")]
     public static class Patch_HPChange
     {
-        [HarmonyPostfix]
-public static void Postfix(PlayerControl __instance)
-{
-    // 加一句日志，如果游戏扣血，日志里就会疯狂刷这句话
-    BepInEx.Logging.Logger.CreateLogSource("HPMod").LogInfo("触发扣血方法！当前HP: " + __instance.currentHP);
-
-    if (__instance.currentHP <= 0f)
-    {
-        __instance.currentHP = -1f; 
-    }
-}
+        [HarmonyPrefix]
+        public static bool Prefix(PlayerControl __instance, float amount)
+        {
+            // 如果扣血值小于0（说明是掉血）
+            if (amount < 0f)
+            {
+                // 直接返回 false 跳过原版扣血方法，不扣血了！
+                BepInEx.Logging.Logger.CreateLogSource("HPMod").LogInfo("Blocked Damage: " + amount);
+                return false; 
+            }
+            
+            return true;
+        }
     }
 }
