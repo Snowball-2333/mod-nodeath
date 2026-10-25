@@ -5,12 +5,10 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
-    <!-- 自动下载 BepInEx 6 和 Harmony 依赖 -->
-    <PackageReference Include="BepInEx.Unity.IL2CPP" Version="6.0.0-be.677" />
+    <PackageReference Include="BepInEx.Unity.IL2CPP" Version="6.0.0-be.*" IncludeAssets="compile" />
     <PackageReference Include="HarmonyX" Version="2.10.1" />
   </ItemGroup>
   <ItemGroup>
-    <!-- 引用你上传的游戏本地 DLL -->
     <Reference Include="Assembly-CSharp">
       <HintPath>Assembly-CSharp.dll</HintPath>
     </Reference>
